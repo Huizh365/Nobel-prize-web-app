@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nobel Prize</title>
+    <link rel="stylesheet" href="CSS/styles.css">
+</head>
+<body>
+    <main>
+        <section id="heading" class="sectionContainer">
+            <img id="logo" src="img/Nobel_Prize.png" alt="Nobel prize medal">
+            <h1 id="pageTitle">The Nobel Prize</h1>
+        </section>
+        <p id="errorMessage"></p>
+        <section id="search" class="sectionContainer">
+            <input id="nameInput" type="text" placeholder="Laureate Name">
+            <input id="motivInput" type="text" placeholder="Motivation">
+            <div id="categoryContainer">
+                <select name="category" id="categoryInput">
+                    <option value="" selected>Category</option>
+                    <option id="chemistry" value="chemistry">Chemistry</option>
+                    <option id="economic" value="economic sciences">Economic sciences</option>
+                    <option id="literature" value="literature">Literature</option>
+                    <option id="peace" value="peace">Peace</option>
+                    <option id="physics" value="physics">Physics</option>
+                    <option id="physiology" value="physiology or medicine">Physiology or Medicine</option>
+                </select>
+            </div>
+            <input id="yearInput" type="number" min="1901" placeholder="Year">
+            <button id="searchBtn" type="submit">Search</button>
+        </section>
+
+        <section id="result" class="sectionContainer">
+            <!-- <div class="laureate">
+                <h3 class="laureateName">${laureateName}</h3>
+                <div id="laureateDetail">
+                    <p id="birthToDeath">birth.date - death.date</p>
+                    <p class="yearAndCategory">${nobelPrize[j].categoryFullName.en} ${nobelPrize[j].awardYear}</p>
+                    <p id="prizePortion">Prize share: portion</p>
+                </div> -->
+        </section>
+    </main>
+
+    <script src="/JS/main.js"></script>
+</body>
+</html>

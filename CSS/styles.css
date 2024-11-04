@@ -1,0 +1,125 @@
+*{
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(1, 41, 63);
+}
+
+
+
+main {
+    width: 80%;
+    margin: 0 auto;
+    background-color: rgb(222, 223, 224);
+    padding: 30px 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+#heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    max-width: 60px;
+    max-height: 60px;
+}
+
+h1 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 2.8em;
+    color: rgb(189, 146, 3);
+}
+
+#errorMessage {
+    width: 70%;
+    text-align: center;
+    margin: 0 auto;
+    color: red;
+}
+
+button, input, select {
+    border:none;
+    border-radius: 2px;
+    height: 30px;
+}
+
+input:focus, select:focus {
+    border: 2px solid rgb(189, 146, 3);
+    outline: none;
+
+}
+
+#search {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 10px auto 20px auto;
+    justify-content: center;
+    align-items: center;
+}
+
+#searchBtn {
+    width: 20%;
+    height: 30px;
+    font-size: medium;
+    border: 2px solid rgb(189, 146, 3);
+    transition-duration: 0.2s;
+}
+#searchBtn:hover {
+    background-color:  rgb(189, 146, 3);
+    color:white;
+    font-weight: 600;
+}
+
+#yearInput {
+    max-width: 4em;
+}
+
+#categoryContainer {
+    max-width: 200px;
+}
+
+
+  #result {
+    width: 90%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 3%;
+    border-radius: 2px;
+    display: none;
+  }
+
+  #result.show {
+    display: block;
+}
+
+
+  .laureate {
+    border-bottom: 1.6px solid lightgrey;
+    margin-bottom: 10px;
+  }
+
+  .yearAndCategory {
+    /* font-size: small; */
+    display: flex;
+    gap: 2em;
+  }
+
+  .laureateName {
+    color: rgb(189, 146, 3);
+    margin: 0;
+  }
+
+  .motive {
+    color: rgb(139, 140, 140);
+    /* font-size: small; */
+    margin-top: 0;
+  }
+
