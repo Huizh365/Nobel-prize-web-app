@@ -129,13 +129,8 @@ input:focus, select:focus {
     margin: 5px 0;
 }
 
-.extraInfoOfLaureate {
+.extraInfo {
     margin-bottom: -6px;
-    display: none;
-}
-
-.personInfo,
-.orgInfo {
     display: none;
 }
 
