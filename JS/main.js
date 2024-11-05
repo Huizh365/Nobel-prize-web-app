@@ -113,7 +113,7 @@ function showLaureates (laureates) {
         result.innerHTML = `<p>No laureates found.</p>`
         return
     }
-    console.log(laureates)
+    
     for (let i = 0; i < laureates.length; i++) {
         const laureate =  laureates[i]
         const laureateName = laureate.fullName ? laureate.fullName.en : laureate.nativeName
@@ -123,19 +123,7 @@ function showLaureates (laureates) {
                 result.innerHTML += `
                 <div class="laureate">
                     <a href="#" class="laureateName" onclick="showExtraInfo('person-${laureate.id}')">${laureateName}</a>
-                    <div class="extraInfo" id="person-${laureate.id}">
-                        ${laureate.birth ? `
-                            <p><strong>Birth:</strong> ${laureate.birth.date}, ${laureate.birth.place.country.en}</p>
-                            <p><strong>Death:</strong> ${laureate.death ? `${laureate.death.date}, ${laureate.death.place.country.en}` : "N/A"}</p>
-                        ` : laureate.founded ? `
-                            <p><strong>Founded:</strong> ${laureate.founded.date}</p>
-                            <p><strong>Country:</strong> ${laureate.founded.place.country.en}</p>
-                        ` : `
-                            <p>No additional information available.</p>
-                        `}
-                         <p class="prizePortion">Prize share: ${nobelPrize[j].portion} </P>                
-                    </div>
-                    
+                    <div class="extraInfo" id="person-${laureate.id}">${getExtraInfo(laureate)}</div>
                     <div class="laureateDetail">
                         <p class="yearAndCategory">${nobelPrize[j].categoryFullName.en} ${nobelPrize[j].awardYear}</p>
                         <p class="motive">Prize motivation: ${nobelPrize[j].motivation.en}</p>
@@ -147,11 +135,28 @@ function showLaureates (laureates) {
     }
 }
 
-  
+
+function getExtraInfo (laureate) {
+    if (laureate.birth) {
+        return `
+            <p><strong>Birth:</strong> ${laureate.birth.date}, ${laureate.birth.place.country.en}</p>
+            <p><strong>Death:</strong> ${laureate.death ? `${laureate.death.date}, ${laureate.death.place.country.en}` : "N/A"}</p>
+        `;
+    } else if (laureate.founded) {
+        return `
+            <p><strong>Founded:</strong> ${laureate.founded.date}</p>
+            <p><strong>Country:</strong> ${laureate.founded.place.country.en}</p>
+        `;
+    } else {
+        return `<p>No additional information available.</p>`;
+    }
+    
+}
+
+
 function showExtraInfo (laureateID) {
     const extraInfo = document.getElementById(`${laureateID}`)
-    const condition = extraInfo.classList.contains("show")
-    extraInfo.classList.toggle("show", !condition)
+    extraInfo.classList.toggle("show")
 }
 
 
