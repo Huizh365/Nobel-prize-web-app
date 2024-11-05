@@ -30,7 +30,7 @@ searchBtn.addEventListener('click', async (e)=>{
 
     try {
         const data = await fetchData(fetchUrl)
-        showLaureates(data.laureates)     
+        showLaureates(data.laureates)
     } catch (error) {
         // console.error("Error fetching laureates:", error)
         result.innerHTML = `<p>Something went wrong, please try again later.</p>`
@@ -122,7 +122,20 @@ function showLaureates (laureates) {
             if(laureateName) {
                 result.innerHTML += `
                 <div class="laureate">
-                    <h3 class="laureateName">${laureateName}</h3>
+                    <a href="#" class="laureateName">${laureateName}</a>
+                    <div class="extraInfo">
+                        ${laureate.birth ? `
+                            <p><strong>Birth:</strong> ${laureate.birth.date}, ${laureate.birth.place.country.en}</p>
+                            <p><strong>Death:</strong> ${laureate.death ? `${laureate.death.date}, ${laureate.death.place.country.en}` : "N/A"}</p>
+                        ` : laureate.founded ? `
+                            <p><strong>Founded:</strong> ${laureate.founded.date}</p>
+                            <p><strong>Country:</strong> ${laureate.founded.place.country.en}</p>
+                        ` : `
+                            <p>No additional information available.</p>
+                        `}
+                         <p class="prizePortion">Prize share: ${nobelPrize[j].portion} </P>                
+                    </div>
+                    
                     <div class="laureateDetail">
                         <p class="yearAndCategory">${nobelPrize[j].categoryFullName.en} ${nobelPrize[j].awardYear}</p>
                         <p class="motive">Prize motivation: ${nobelPrize[j].motivation.en}</p>
@@ -131,10 +144,31 @@ function showLaureates (laureates) {
             `
             }
         }
+    }
+}
+
+/*
+        
+        // showExtraInfo(e)
+
+        // function showExtraInfo (e) {
+        //     e.preventDefault()
+        //     const extraInfo = e.target.nextElementSibling
+        //     const personInfo = document.getElementsByClassName("personInfo")[0]
+        //     const orgInfo = document.getElementsByClassName("orgInfo")[0]
+        //     extraInfo.classList.add("show")
+        //     if(laureate.fullName) {
+        //         personInfo.classList.add("show")
+        //     } else {
+        //         orgInfo.classList.add("show")
+        //     }
+
+        // }
+
     }      
 }
 
-
+*/
 
 function toggleResult (element) {
     element.classList.toggle("show", element.children.length > 0)

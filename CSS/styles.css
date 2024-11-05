@@ -110,6 +110,7 @@ input:focus, select:focus {
     /* font-size: small; */
     display: flex;
     gap: 2em;
+    font-weight: 600;
   }
 
   .laureateName {
@@ -119,7 +120,25 @@ input:focus, select:focus {
 
   .motive {
     color: rgb(139, 140, 140);
-    /* font-size: small; */
     margin-top: 0;
   }
 
+.birth,
+.death,
+.prizePortion {
+    margin: 5px 0;
+}
+
+.extraInfoOfLaureate {
+    margin-bottom: -6px;
+    display: none;
+}
+
+.personInfo,
+.orgInfo {
+    display: none;
+}
+
+.show {
+    display: block;
+}
