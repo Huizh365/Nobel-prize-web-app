@@ -113,7 +113,7 @@ function showLaureates (laureates) {
         result.innerHTML = `<p>No laureates found.</p>`
         return
     }
-    
+
     for (let i = 0; i < laureates.length; i++) {
         const laureate =  laureates[i]
         const laureateName = laureate.fullName ? laureate.fullName.en : laureate.nativeName
@@ -122,11 +122,12 @@ function showLaureates (laureates) {
             if(laureateName) {
                 result.innerHTML += `
                 <div class="laureate">
-                    <a href="#" class="laureateName" onclick="showExtraInfo('person-${laureate.id}')">${laureateName}</a>
-                    <div class="extraInfo" id="person-${laureate.id}">${getExtraInfo(laureate)}</div>
+                    <a href="#" class="laureateName" onclick="showExtraInfo(event, 'person-${laureate.id}-${j}')">${laureateName}</a>
+                    <div class="extraInfo" id="person-${laureate.id}-${j}">${getExtraInfo(laureate)}</div>
                     <div class="laureateDetail">
                         <p class="yearAndCategory">${nobelPrize[j].categoryFullName.en} ${nobelPrize[j].awardYear}</p>
-                        <p class="motive">Prize motivation: ${nobelPrize[j].motivation.en}</p>
+                        <p class="prizePortion"><strong>Prize share:</strong>        ${nobelPrize[j].portion}</p>
+                        <p class="motive"><strong>Prize motivation:</strong> ${nobelPrize[j].motivation.en}</p>
                     </div>
                 </div>
             `
@@ -137,24 +138,23 @@ function showLaureates (laureates) {
 
 
 function getExtraInfo (laureate) {
-    if (laureate.birth) {
+    if (laureate.founded) {
         return `
-            <p><strong>Birth:</strong> ${laureate.birth.date}, ${laureate.birth.place.country.en}</p>
-            <p><strong>Death:</strong> ${laureate.death ? `${laureate.death.date}, ${laureate.death.place.country.en}` : "N/A"}</p>
+            <p class="foundedDetail"><strong>Founded:</strong> ${laureate.founded.date}</p>
+            <p class="foundedDetail"><strong>Country:</strong> ${laureate.founded.place.country.en}</p>
         `;
-    } else if (laureate.founded) {
-        return `
-            <p><strong>Founded:</strong> ${laureate.founded.date}</p>
-            <p><strong>Country:</strong> ${laureate.founded.place.country.en}</p>
-        `;
+    } else if (laureate.birth) {
+        const birthInfo = `<p class="birthInfo"><strong>Birth:</strong> ${laureate.birth.date}, ${laureate.birth.place.country.en}</p>`
+        const deathInfo = laureate.death ? `<p class="deathInfo"><strong>Death:</strong> ${laureate.death.date}, ${laureate.death.place.country.en}</p>`: ''
+        return birthInfo + deathInfo
     } else {
-        return `<p>No additional information available.</p>`;
+        return `<p class="noInfo">No additional information available.</p>`
     }
-    
 }
 
 
-function showExtraInfo (laureateID) {
+function showExtraInfo (event, laureateID) {
+    event.preventDefault()
     const extraInfo = document.getElementById(`${laureateID}`)
     extraInfo.classList.toggle("show")
 }
