@@ -55,19 +55,19 @@ function checkCategory(categoryValue) {
     switch (categoryValue) {
         case 'chemistry':
             category = 'che'
-            break;
+            break
         case 'economic sciences':
             category = 'eco'
-            break;
+            break
         case 'literature':
             category = 'lit'
-            break;
+            break
         case 'peace':
             category = 'pea'
-            break;
+            break
         case 'physics':
             category = 'phy'
-            break;
+            break
         case 'physiology or medicine':
             category = 'med'
     } 
@@ -146,7 +146,7 @@ function showLaureates (laureates) {
 function getExtraInfo (laureate) {
     if (laureate.founded) {
         const foundedTime = `<p class="foundedDetail foundedTime"><strong>Founded:</strong> ${getFoundedYear(laureate)}</p>`
-        const foundedCountry = laureate.founded.place.country ? `<p class="foundedDetail"><strong>Country:</strong> ${laureate.founded.place.country.en}</p>` : ''
+        const foundedCountry = laureate.founded.place.country ? `<span class="foundedDetail"><strong>Country:</strong> ${laureate.founded.place.country.en}</span>` : ''
         return foundedTime + foundedCountry
     } else if (laureate.birth) {
         const fullName = `<p class="fullName"><strong>FullName:</strong> ${laureate.fullName.en}</P>`
@@ -166,7 +166,7 @@ function getFoundedYear(laureate) {
         if (!isNaN(foundedYear)) {
             return foundedYear
         } else {
-            console.log(`Error parsing year from date: ${foundedYear}`)
+            console.log(`Couldn't parsing year from date: ${foundedYear}`)
         }
     }
     return `No information`
