@@ -21,18 +21,21 @@ searchBtn.addEventListener('click', async (e)=>{
     const categoryValue = getInputValue(categoryInput)
     const yearValue = getInputValue(yearInput)
 
+    //check if any search condition
     if(!nameValue && !motivValue && !categoryValue && !yearValue) {
         showErrorMessage (`Please enter at least one search condition.`)
         return
     }
 
     const fetchUrl = getUrl(yearValue, nameValue, categoryValue, motivValue)
+    // console.log(fetchUrl)
 
     try {
         const data = await fetchData(fetchUrl)
         showLaureates(data.laureates)
+        // console.log(data.laureates)
     } catch (error) {
-        // console.error("Error fetching laureates:", error)
+        console.error("Error fetching laureates:", error)
         result.innerHTML = `<p>Something went wrong, please try again later.</p>`
     }
 
@@ -88,21 +91,23 @@ function showErrorMessage (message) {
     errorMessage.innerText = message;
 }
 
-//create url based on the input values
+
+//create url based on input values
 function getUrl (yearValue, nameValue, categoryValue, motivValue) {
     let url = url1
-    if (nameValue) url += `&name=${nameValue}`
-    if (categoryValue) url += `&nobelPrizeCategory=${checkCategory(categoryValue)}&`
-    if(motivValue) url += `&motivation=${motivValue}&`
-    if(yearValue && validateYear (yearValue)) url += `&nobelPrizeYear=${yearValue}&`   
+    if (nameValue) {url += `&name=${encodeURIComponent(nameValue)}`}
+    if (categoryValue) {url += `&nobelPrizeCategory=${checkCategory(categoryValue)}&`}
+    if(motivValue) {url += `&motivation=${encodeURIComponent(motivValue)}&`}
+    if(yearValue && validateYear (yearValue)) {url += `&nobelPrizeYear=${yearValue}&`}
     return url 
 }
 
 
 async function fetchData(url) {
     const response = await fetch(url)
+    console.log(response)
     if (!response.ok) {
-        throw new Error (`HTTP error status: ${response.status}`)
+        throw new Error (`HTTP error status: ${response.status}, HTTP error message: ${response.statusText}`)
     }
     return response.json();
 } 
@@ -139,13 +144,12 @@ function showLaureates (laureates) {
 
 function getExtraInfo (laureate) {
     if (laureate.founded) {
-        return `
-            <p class="foundedDetail"><strong>Founded:</strong> ${laureate.founded.date}</p>
-            <p class="foundedDetail"><strong>Country:</strong> ${laureate.founded.place.country.en}</p>
-        `;
+        const foundedTime = `<p class="foundedDetail"><strong>Founded:</strong> ${laureate.founded.date}</p>`
+        const foundedCountry = laureate.founded.place.country ? `<p class="foundedDetail"><strong>Country:</strong> ${laureate.founded.place.country.en}</p>` : ''
+        return foundedTime + foundedCountry
     } else if (laureate.birth) {
         const birthInfo = `<p class="birthInfo"><strong>Birth:</strong> ${laureate.birth.date}, ${laureate.birth.place.country.en}</p>`
-        const deathInfo = laureate.death ? `<p class="deathInfo"><strong>Death:</strong> ${laureate.death.date}, ${laureate.death.place.country.en}</p>`: ''
+        const deathInfo = laureate.death ? `<p class="deathInfo"><strong>Death:</strong> ${laureate.death.date},  ${laureate.death.place?.country?.en || ''}</p>`: ''
         return birthInfo + deathInfo
     } else {
         return `<p class="noInfo">No additional information available.</p>`
