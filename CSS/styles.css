@@ -107,11 +107,11 @@ input:focus, select:focus {
   }
 
   .yearAndCategory {
-    /* font-size: small; */
     display: flex;
     gap: 2em;
     font-weight: 600;
     font-size: 1.1em;
+    margin: 25px 0 10px 0;
   }
 
   .laureateName {

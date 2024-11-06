@@ -96,9 +96,9 @@ function showErrorMessage (message) {
 function getUrl (yearValue, nameValue, categoryValue, motivValue) {
     let url = url1
     if (nameValue) {url += `&name=${encodeURIComponent(nameValue)}`}
-    if (categoryValue) {url += `&nobelPrizeCategory=${checkCategory(categoryValue)}&`}
-    if(motivValue) {url += `&motivation=${encodeURIComponent(motivValue)}&`}
-    if(yearValue && validateYear (yearValue)) {url += `&nobelPrizeYear=${yearValue}&`}
+    if (categoryValue) {url += `&nobelPrizeCategory=${checkCategory(categoryValue)}`}
+    if(motivValue) {url += `&motivation=${encodeURIComponent(motivValue)}`}
+    if(yearValue && validateYear (yearValue)) {url += `&nobelPrizeYear=${yearValue}`}
     return url 
 }
 
@@ -118,28 +118,30 @@ function showLaureates (laureates) {
         result.innerHTML = `<p>No laureates found.</p>`
         return
     }
-
-    for (let i = 0; i < laureates.length; i++) {
-        const laureate =  laureates[i]
+    
+    laureates.forEach(laureate => {
         const laureateName = laureate.fullName ? laureate.fullName.en : laureate.nativeName
-        const nobelPrize = laureate.nobelPrizes
-        for (let j = 0; j < nobelPrize.length; j++) {
+        const nobelPrizes = laureate.nobelPrizes
             if(laureateName) {
                 result.innerHTML += `
                 <div class="laureate">
-                    <a href="#" class="laureateName" onclick="showExtraInfo(event, 'person-${laureate.id}-${j}')">${laureateName}</a>
-                    <div class="extraInfo" id="person-${laureate.id}-${j}">${getExtraInfo(laureate)}</div>
-                    <div class="laureateDetail">
-                        <p class="yearAndCategory">${nobelPrize[j].categoryFullName.en} ${nobelPrize[j].awardYear}</p>
-                        <p class="prizePortion"><strong>Prize share:</strong>        ${nobelPrize[j].portion}</p>
-                        <p class="motive"><strong>Prize motivation:</strong> ${nobelPrize[j].motivation.en}</p>
-                    </div>
+                    <a href="#" class="laureateName" onclick="showExtraInfo(event, 'person-${laureate.id}')">${laureateName}</a>
+                    <div class="extraInfo" id="person-${laureate.id}">${getExtraInfo(laureate)}</div>
+                    <div class="prizesList" id="prizes-${laureate.id}"></div>
                 </div>
-            `
+                `
+                const prizesList = document.getElementById(`prizes-${laureate.id}`)
+                nobelPrizes.forEach(prize => {
+                    prizesList.innerHTML += `
+                        <p class="yearAndCategory">${prize.categoryFullName.en} ${prize.awardYear}</p>
+                        <p class="prizePortion"><strong>Prize share:</strong> ${prize.portion}</p>
+                        <p class="motive"><strong>Prize motivation:</strong> ${prize.motivation.en}</p>
+                    ` 
+                });
             }
-        }
+        })
     }
-}
+
 
 
 function getExtraInfo (laureate) {
