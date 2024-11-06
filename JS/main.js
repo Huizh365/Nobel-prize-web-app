@@ -1,5 +1,5 @@
 // get elements
-const url1 = 'https://api.nobelprize.org/2.1/laureates?limit=500'
+const urlMain = 'https://api.nobelprize.org/2.1/laureates?limit=500'
 const errorMessage = document.getElementById('errorMessage')
 const nameInput = document.getElementById('nameInput')
 const motivInput = document.getElementById('motivInput')
@@ -8,7 +8,7 @@ const yearInput = document.getElementById('yearInput')
 const searchBtn = document.getElementById('searchBtn')
 const result = document.getElementById('result')
 
-//search button
+//click search button 
 searchBtn.addEventListener('click', async (e)=>{
     e.preventDefault()
     result.innerHTML = ``
@@ -27,13 +27,15 @@ searchBtn.addEventListener('click', async (e)=>{
         return
     }
 
+    //Url based on input values
     const fetchUrl = getUrl(yearValue, nameValue, categoryValue, motivValue)
-    // console.log(fetchUrl)
+    if (!fetchUrl) return
 
+    //fetch data and show info 
     try {
         const data = await fetchData(fetchUrl)
         showLaureates(data.laureates)
-        // console.log(data.laureates)
+        console.log(data.laureates)
     } catch (error) {
         console.error("Error fetching laureates:", error)
         result.innerHTML = `<p>Something went wrong, please try again later.</p>`
@@ -41,7 +43,6 @@ searchBtn.addEventListener('click', async (e)=>{
 
     toggleResult(result)
 })
-
 
 
 /*************** functions ***************/
@@ -56,19 +57,19 @@ function checkCategory(categoryValue) {
     switch (categoryValue) {
         case 'chemistry':
             category = 'che'
-            break;
+            break
         case 'economic sciences':
             category = 'eco'
-            break;
+            break
         case 'literature':
             category = 'lit'
-            break;
+            break
         case 'peace':
             category = 'pea'
-            break;
+            break
         case 'physics':
             category = 'phy'
-            break;
+            break
         case 'physiology or medicine':
             category = 'med'
     } 
@@ -79,33 +80,31 @@ function checkCategory(categoryValue) {
 function validateYear (yearValue) {
     const thisYear = new Date().getFullYear()
     if (yearValue < 1901 || yearValue > thisYear) {
-        showErrorMessage (`Invalid year, it should be between 1901 and this year`) 
+        showErrorMessage (`Invalid year, it should be between 1901 and ${thisYear}`) 
         return false
     } else {
         return true
     }
 }
 
-
 function showErrorMessage (message) {
-    errorMessage.innerText = message;
+    errorMessage.innerText = message
 }
-
 
 //create url based on input values
 function getUrl (yearValue, nameValue, categoryValue, motivValue) {
-    let url = url1
+    if (yearValue && !validateYear(yearValue)) {return null}
+
+    let url = urlMain
     if (nameValue) {url += `&name=${encodeURIComponent(nameValue)}`}
     if (categoryValue) {url += `&nobelPrizeCategory=${checkCategory(categoryValue)}`}
     if(motivValue) {url += `&motivation=${encodeURIComponent(motivValue)}`}
-    if(yearValue && validateYear (yearValue)) {url += `&nobelPrizeYear=${yearValue}`}
+    if(yearValue) {url += `&nobelPrizeYear=${yearValue}`}
     return url 
 }
 
-
 async function fetchData(url) {
     const response = await fetch(url)
-    console.log(response)
     if (!response.ok) {
         throw new Error (`HTTP error status: ${response.status}, HTTP error message: ${response.statusText}`)
     }
@@ -120,7 +119,7 @@ function showLaureates (laureates) {
     }
     
     laureates.forEach(laureate => {
-        const laureateName = laureate.fullName ? laureate.fullName.en : laureate.nativeName
+        const laureateName = laureate.knownName ? laureate.knownName.en : laureate.orgName.en
         const nobelPrizes = laureate.nobelPrizes
             if(laureateName) {
                 result.innerHTML += `
@@ -142,20 +141,35 @@ function showLaureates (laureates) {
         })
     }
 
-
-
+//get more info (when clicking the laureate's name)
 function getExtraInfo (laureate) {
     if (laureate.founded) {
-        const foundedTime = `<p class="foundedDetail"><strong>Founded:</strong> ${laureate.founded.date}</p>`
+        const foundedTime = `<p class="foundedDetail foundedTime"><strong>Founded:</strong> ${getFoundedYear(laureate)}</p>`
         const foundedCountry = laureate.founded.place.country ? `<p class="foundedDetail"><strong>Country:</strong> ${laureate.founded.place.country.en}</p>` : ''
         return foundedTime + foundedCountry
     } else if (laureate.birth) {
+        console.log(laureate)
+        const fullName = `<p class="fullName"><strong>Full name:</strong> ${laureate.fullName.en}</P>`
         const birthInfo = `<p class="birthInfo"><strong>Birth:</strong> ${laureate.birth.date}, ${laureate.birth.place.country.en}</p>`
         const deathInfo = laureate.death ? `<p class="deathInfo"><strong>Death:</strong> ${laureate.death.date},  ${laureate.death.place?.country?.en || ''}</p>`: ''
-        return birthInfo + deathInfo
+        return fullName + birthInfo + deathInfo
     } else {
         return `<p class="noInfo">No additional information available.</p>`
     }
+}
+
+//get the year from founded date info
+function getFoundedYear(laureate) {
+    if (laureate.founded.date) {
+        const foundedDate = laureate.founded.date
+        const foundedYear = parseInt(foundedDate.slice(0, 4))
+        if (!isNaN(foundedYear)) {
+            return foundedYear
+        } else {
+            console.log(`Couldn't parsing year from date: ${foundedYear}`)
+        }
+    }
+    return `No information`
 }
 
 

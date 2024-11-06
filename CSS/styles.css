@@ -9,7 +9,7 @@ body {
 
 
 main {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     background-color: rgb(222, 223, 224);
     padding: 30px 30px;
@@ -25,14 +25,15 @@ main {
 }
 
 img {
-    max-width: 60px;
-    max-height: 60px;
+    max-width: 100px;
+    max-height: 100px;
 }
 
 h1 {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    font-size: 2.8em;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: clamp(2rem, 2vw + 1rem, 3.5rem);
     color: rgb(189, 146, 3);
 }
 
@@ -67,7 +68,7 @@ input:focus, select:focus {
 
 #searchBtn {
     width: 20%;
-    height: 30px;
+    max-width: 100px;
     font-size: medium;
     border: 2px solid rgb(189, 146, 3);
     transition-duration: 0.2s;
@@ -87,58 +88,64 @@ input:focus, select:focus {
 }
 
 
-  #result {
+#result {
     width: 90%;
     margin: 0 auto;
     background-color: white;
     padding: 3%;
     border-radius: 2px;
     display: none;
-  }
+}
 
-  #result.show {
+#result.show {
     display: block;
 }
 
 
-  .laureate {
+.laureate {
     border-bottom: 1.6px solid lightgrey;
-    margin-bottom: 10px;
-  }
+    margin-bottom: 20px;
+}
 
-  .yearAndCategory {
+.yearAndCategory {
     display: flex;
     gap: 2em;
     font-weight: 600;
     font-size: 1.1em;
-    margin: 25px 0 10px 0;
-  }
+    margin: 20px 0 10px 0;
+}
 
-  .laureateName {
+.laureateName {
     color: rgb(189, 146, 3);
-    font-size: 1.5em;
+    font-size: clamp(1.3em, 3vw, 1.5em); 
     font-weight: 800;
     padding: 0 2px;
     margin: 0;
     text-decoration: none;
     border-radius: 2px;
-  }
+}
 
-  .laureateName:hover {
+.laureateName:hover {
     background-color: rgb(189, 146, 3);
     color: white;
-  }
+}
 
-  .motive {
+.motive {
     color: rgb(139, 140, 140);
     margin-top: 0;
-  }
+}
 
 .foundedDetail,
+.fullName,
 .birthInfo,
 .deathInfo,
 .prizePortion {
     margin: 5px 0;
+}
+
+.fullName,
+.foundedTime {
+    margin-top: 10px;
 }
 
 .extraInfo {
