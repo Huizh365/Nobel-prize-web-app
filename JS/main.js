@@ -106,7 +106,6 @@ function getUrl (yearValue, nameValue, categoryValue, motivValue) {
 async function fetchData(url) {
     const response = await fetch(url)
     if (!response.ok) {
-        console.log(response)
         throw new Error (`HTTP error status: ${response.status}, HTTP error message: ${response.statusText}`)
     }
     return response.json();
@@ -142,14 +141,14 @@ function showLaureates (laureates) {
         })
     }
 
-
 //get more info (when clicking the laureate's name)
 function getExtraInfo (laureate) {
     if (laureate.founded) {
         const foundedTime = `<p class="foundedDetail foundedTime"><strong>Founded:</strong> ${getFoundedYear(laureate)}</p>`
-        const foundedCountry = laureate.founded.place.country ? `<span class="foundedDetail"><strong>Country:</strong> ${laureate.founded.place.country.en}</span>` : ''
+        const foundedCountry = laureate.founded.place.country ? `<p class="foundedDetail"><strong>Country:</strong> ${laureate.founded.place.country.en}</p>` : ''
         return foundedTime + foundedCountry
     } else if (laureate.birth) {
+        console.log(laureate)
         const fullName = `<p class="fullName"><strong>Full name:</strong> ${laureate.fullName.en}</P>`
         const birthInfo = `<p class="birthInfo"><strong>Birth:</strong> ${laureate.birth.date}, ${laureate.birth.place.country.en}</p>`
         const deathInfo = laureate.death ? `<p class="deathInfo"><strong>Death:</strong> ${laureate.death.date},  ${laureate.death.place?.country?.en || ''}</p>`: ''
