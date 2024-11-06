@@ -146,7 +146,7 @@ function showLaureates (laureates) {
 
 function getExtraInfo (laureate) {
     if (laureate.founded) {
-        const foundedTime = `<p class="foundedDetail"><strong>Founded:</strong> ${laureate.founded.date}</p>`
+        const foundedTime = `<p class="foundedDetail foundedTime"><strong>Founded:</strong> ${laureate.founded.date}</p>`
         const foundedCountry = laureate.founded.place.country ? `<p class="foundedDetail"><strong>Country:</strong> ${laureate.founded.place.country.en}</p>` : ''
         return foundedTime + foundedCountry
     } else if (laureate.birth) {
