@@ -143,10 +143,11 @@ function showLaureates (laureates) {
     }
 
 
-
+//get more info (when clicking the laureate's name)
 function getExtraInfo (laureate) {
     if (laureate.founded) {
-        const foundedTime = `<p class="foundedDetail foundedTime"><strong>Founded:</strong> ${laureate.founded.date}</p>`
+        const foundedYear = new Date().getFullYear(laureate.founded.date)
+        const foundedTime = `<p class="foundedDetail foundedTime"><strong>Founded:</strong> ${foundedYear}</p>`
         const foundedCountry = laureate.founded.place.country ? `<p class="foundedDetail"><strong>Country:</strong> ${laureate.founded.place.country.en}</p>` : ''
         return foundedTime + foundedCountry
     } else if (laureate.birth) {
