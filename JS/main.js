@@ -91,21 +91,23 @@ function showErrorMessage (message) {
     errorMessage.innerText = message;
 }
 
-//create url based on the input values
+
+//create url based on input values
 function getUrl (yearValue, nameValue, categoryValue, motivValue) {
     let url = url1
-    if (nameValue) url += `&name=${encodeURIComponent(nameValue)}`
-    if (categoryValue) url += `&nobelPrizeCategory=${checkCategory(categoryValue)}&`
-    if(motivValue) url += `&motivation=${encodeURIComponent(motivValue)}&`
-    if(yearValue && validateYear (yearValue)) url += `&nobelPrizeYear=${yearValue}&`   
+    if (nameValue) {url += `&name=${encodeURIComponent(nameValue)}`}
+    if (categoryValue) {url += `&nobelPrizeCategory=${checkCategory(categoryValue)}&`}
+    if(motivValue) {url += `&motivation=${encodeURIComponent(motivValue)}&`}
+    if(yearValue && validateYear (yearValue)) {url += `&nobelPrizeYear=${yearValue}&`}
     return url 
 }
 
 
 async function fetchData(url) {
     const response = await fetch(url)
+    console.log(response)
     if (!response.ok) {
-        throw new Error (`HTTP error status: ${response.status}`)
+        throw new Error (`HTTP error status: ${response.status}, HTTP error message: ${response.statusText}`)
     }
     return response.json();
 } 
