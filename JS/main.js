@@ -8,7 +8,7 @@ const yearInput = document.getElementById('yearInput')
 const searchBtn = document.getElementById('searchBtn')
 const result = document.getElementById('result')
 
-//search button
+//click search button 
 searchBtn.addEventListener('click', async (e)=>{
     e.preventDefault()
     result.innerHTML = ``
@@ -29,7 +29,9 @@ searchBtn.addEventListener('click', async (e)=>{
 
     //Url based on input values
     const fetchUrl = getUrl(yearValue, nameValue, categoryValue, motivValue)
+    if (!fetchUrl) return
 
+    //fetch data and show info 
     try {
         const data = await fetchData(fetchUrl)
         showLaureates(data.laureates)
@@ -78,29 +80,28 @@ function checkCategory(categoryValue) {
 function validateYear (yearValue) {
     const thisYear = new Date().getFullYear()
     if (yearValue < 1901 || yearValue > thisYear) {
-        showErrorMessage (`Invalid year, it should be between 1901 and this year`) 
+        showErrorMessage (`Invalid year, it should be between 1901 and ${thisYear}`) 
         return false
     } else {
         return true
     }
 }
 
-
 function showErrorMessage (message) {
     errorMessage.innerText = message
 }
 
-
 //create url based on input values
 function getUrl (yearValue, nameValue, categoryValue, motivValue) {
+    if (yearValue && !validateYear(yearValue)) {return null}
+
     let url = urlMain
     if (nameValue) {url += `&name=${encodeURIComponent(nameValue)}`}
     if (categoryValue) {url += `&nobelPrizeCategory=${checkCategory(categoryValue)}`}
     if(motivValue) {url += `&motivation=${encodeURIComponent(motivValue)}`}
-    if(yearValue && validateYear(yearValue)) {url += `&nobelPrizeYear=${yearValue}`}
+    if(yearValue) {url += `&nobelPrizeYear=${yearValue}`}
     return url 
 }
-
 
 async function fetchData(url) {
     const response = await fetch(url)
@@ -149,7 +150,7 @@ function getExtraInfo (laureate) {
         const foundedCountry = laureate.founded.place.country ? `<span class="foundedDetail"><strong>Country:</strong> ${laureate.founded.place.country.en}</span>` : ''
         return foundedTime + foundedCountry
     } else if (laureate.birth) {
-        const fullName = `<p class="fullName"><strong>FullName:</strong> ${laureate.fullName.en}</P>`
+        const fullName = `<p class="fullName"><strong>Full name:</strong> ${laureate.fullName.en}</P>`
         const birthInfo = `<p class="birthInfo"><strong>Birth:</strong> ${laureate.birth.date}, ${laureate.birth.place.country.en}</p>`
         const deathInfo = laureate.death ? `<p class="deathInfo"><strong>Death:</strong> ${laureate.death.date},  ${laureate.death.place?.country?.en || ''}</p>`: ''
         return fullName + birthInfo + deathInfo
