@@ -35,7 +35,6 @@ searchBtn.addEventListener('click', async (e)=>{
     try {
         const data = await fetchData(fetchUrl)
         showLaureates(data.laureates)
-        console.log(data.laureates)
     } catch (error) {
         console.error("Error fetching laureates:", error)
         result.innerHTML = `<p>Something went wrong, please try again later.</p>`
@@ -148,9 +147,8 @@ function getExtraInfo (laureate) {
         const foundedCountry = laureate.founded.place.country ? `<p class="foundedDetail"><strong>Country:</strong> ${laureate.founded.place.country.en}</p>` : ''
         return foundedTime + foundedCountry
     } else if (laureate.birth) {
-        console.log(laureate)
         const fullName = `<p class="fullName"><strong>Full name:</strong> ${laureate.fullName.en}</P>`
-        const birthInfo = `<p class="birthInfo"><strong>Birth:</strong> ${laureate.birth.date}, ${laureate.birth.place.country.en}</p>`
+        const birthInfo = `<p class="birthInfo"><strong>Birth:</strong> ${laureate.birth.date}, ${laureate.birth.place?.country?.en || ''}</p>`
         const deathInfo = laureate.death ? `<p class="deathInfo"><strong>Death:</strong> ${laureate.death.date},  ${laureate.death.place?.country?.en || ''}</p>`: ''
         return fullName + birthInfo + deathInfo
     } else {
