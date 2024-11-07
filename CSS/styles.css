@@ -6,8 +6,6 @@ body {
     background-color: rgb(1, 41, 63);
 }
 
-
-
 main {
     width: 90%;
     margin: 0 auto;
@@ -87,7 +85,6 @@ input:focus, select:focus {
     max-width: 200px;
 }
 
-
 #result {
     width: 90%;
     margin: 0 auto;
@@ -100,7 +97,6 @@ input:focus, select:focus {
 #result.show {
     display: block;
 }
-
 
 .laureate {
     border-bottom: 1.6px solid lightgrey;
