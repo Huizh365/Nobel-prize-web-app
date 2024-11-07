@@ -110,7 +110,6 @@ async function fetchData(url) {
     return response.json();
 } 
 
-
 function showLaureates (laureates) {
     if (!laureates || laureates.length === 0) {
         result.innerHTML = `<p>No laureates found.</p>`
@@ -171,6 +170,7 @@ function getFoundedYear(laureate) {
 }
 
 
+// to show or hide info
 function showExtraInfo (event, laureateID) {
     event.preventDefault()
     const extraInfo = document.getElementById(`${laureateID}`)
